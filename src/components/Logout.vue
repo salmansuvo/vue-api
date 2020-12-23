@@ -22,7 +22,7 @@ name: "Logout",
         if (response.status == 200){
           localStorage.removeItem('Access_token')
           this.$router.push("/login")
-          console.log(response)
+          window.location.reload()
         }
       }).catch(error => {
         // location.reload();

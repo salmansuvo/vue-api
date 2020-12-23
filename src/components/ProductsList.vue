@@ -29,6 +29,7 @@
 </template>
 
 <script>
+var Token = localStorage.getItem('Access_token')
 import axios from 'axios';
 export default {
   name: "ProductsList",
@@ -45,7 +46,7 @@ export default {
             url: this.API_URL+'api/products/list',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer '+this.TOKEN
+              'Authorization': 'Bearer '+Token//this.TOKEN
             }
             }).then(  (response )=> {
               // console.log(this)

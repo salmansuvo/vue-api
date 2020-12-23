@@ -57,7 +57,7 @@ Vue.mixin({
         return Token;
       },
       get API_URL() {
-        return "http://localhost/Api_sample/public/";
+        return "http://localhost/Api_Vue/public/";
       }
     }
   }

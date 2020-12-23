@@ -25,13 +25,6 @@ export default {
       password: '',
     }
   },
-  // mounted: function (){
-  //   if (Token != undefined || Token !=null){
-  //     console.log(Token)
-  //     this.$router.push('/list')
-  //   }
-  // },
-
   methods: {
       getFormValues: function (submitEvent) {
         this.email = submitEvent.target.elements.email.value
@@ -44,23 +37,15 @@ export default {
             password: this.password
           }
         }).then(  (response )=> {
-          // console.log(response)
-          //     this.globalReadOnlyProperty = response.data.access_token
-            // this.globalReadOnlyProperty = this.Bearer_token
-            localStorage.setItem('Access_token',response.data.access_token)
-            // console.log(this.Bearer_token)
-this.loggedIn = true;
-            // this.$router.push('/navbar')
+
+            localStorage.setItem('Access_token',response.data.token)
+              // this.loggedIn = true;
               this.$router.push('/list')
+          window.location.reload()
         }
         )
-            // .then(this.$router.push('/list'))
       }
     },
-    // created: function (){
-    //
-    //
-    // }
 }
 </script>
 
