@@ -1,5 +1,6 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
+import store from './store';
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import VueRouter from 'vue-router';
 import ProductsList from '@/components/ProductsList.vue';
@@ -14,18 +15,28 @@ import "vuetify/dist/vuetify.min.css";
 import EditProduct from "@/components/EditProduct";
 import Logout from "@/components/Logout";
 import Navbar from "@/components/Navbar";
+import axios from "axios";
+
+require('@/store/subscriber');
+axios.defaults.baseURL = 'http://localhost/product-crud-api-laravel/public';
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false
-var Token = localStorage.getItem('Access_token')
+
 const router = new VueRouter({
   routes: [
     {path: '/login', component: LoginForm},
     {path: '/', component: LoginForm},
-    {path: '/list', component: ProductsList},
+    { path: '/list', component: ProductsList,
+      // beforeEnter: (to, from, next) =>{
+      // return next({
+      //   path: '/login'
+      // })
+      // }
+    },
     {path: '/navbar', component: Navbar},
     {path: '/create', component: CreateProduct},
     {path: '/logout', component: Logout},
@@ -50,20 +61,12 @@ const router = new VueRouter({
 //   }
 // });
 // this.$auth.redirect();
-Vue.mixin({
-  data: function() {
-    return {
-      get TOKEN() {
-        return Token;
-      },
-      get API_URL() {
-        return "http://localhost/Api_Vue/public/";
-      }
-    }
-  }
-})
-new Vue({
 
-  render: h => h(App),
-  router
-}).$mount('#app')
+store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+})
+

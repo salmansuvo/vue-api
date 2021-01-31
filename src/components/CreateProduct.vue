@@ -22,6 +22,8 @@
 </template>
 
 <script>
+// var TOKEN = localStorage.getItem('token');
+
 import axios from "axios";
 
 export default {
@@ -45,7 +47,6 @@ export default {
             var dataURL = reader.result;
             var output = document.getElementById('image_code');
             output.value = dataURL;
-            // console.log(output.src)
           };
         reader.readAsDataURL(input.files[0]);
       } ,
@@ -56,17 +57,17 @@ export default {
         this.description = submitEvent.target.elements.description.value
           axios({
             method: 'post',
-            url: this.API_URL+'api/products',
+            url: 'api/products',
             data: {
               title: this.title,
               price: this.price,
               image: this.image,
               description: this.description
             },
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + this.TOKEN
-            }
+            // headers: {
+            //   'Content-Type': 'application/json',
+            //   'Authorization': 'Bearer ' + TOKEN
+            // }
           }).then((response) => {
             if (response.status == 200) {
               this.$router.push('/list')

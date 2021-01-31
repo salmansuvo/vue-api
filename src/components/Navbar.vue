@@ -6,13 +6,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active" v-if="loggedIn">
+        <li class="nav-item active" v-if="authenticated">
           <a class="nav-link"><router-link to="/list"> Home </router-link><span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" v-if="!loggedIn">
+        <li class="nav-item" v-if="!authenticated">
           <a class="nav-link"><router-link to="/login"> Login </router-link></a>
         </li>
-        <li class="nav-item" v-if="loggedIn">
+        <li class="nav-item" v-if="authenticated">
           <a class="nav-link "><router-link to="/logout"> Logout </router-link>  </a>
         </li>
       </ul>
@@ -21,14 +21,14 @@
 </template>
 
 <script>
-var Token = localStorage.getItem('Access_token')
+import { mapGetters } from 'vuex';
 export default {
 name: "Navbar",
   computed:{
-   loggedIn(){
-     return (Token == undefined || Token == null)?false:true
-   }
-  }
+  ...mapGetters({
+    authenticated: 'auth/authenticated'
+  })
+  },
 }
 </script>
 

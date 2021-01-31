@@ -23,5 +23,5 @@ npm run lint
 ### Customize configurations
  ### Define API URL
 ```angular2html
-Define Api Applications Url API_URL in Vue.Mixin -> get API_URL() at main.js file
+Define Api Applications Url axios.defaults.baseURL in main.js file
 ```

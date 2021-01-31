@@ -22,9 +22,10 @@
   </form>
 </template>
 
+
 <script>
 import axios from "axios";
-
+// var TOKEN = localStorage.getItem('token');
 export default {
 name: "EditProduct",
   data: function () {
@@ -41,11 +42,11 @@ name: "EditProduct",
   mounted: function() {
         axios({
                 method: 'post',
-                url: this.API_URL+'api/products/'+this.$route.params.id+'/edit',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer '+this.TOKEN
-                }
+                url: 'api/products/'+this.$route.params.id+'/edit',
+                // headers: {
+                //   'Content-Type': 'application/json',
+                //   'Authorization': 'Bearer '+TOKEN
+                // }
                 }).then(response => {
                 this.product = response.data
             })},
@@ -71,20 +72,20 @@ name: "EditProduct",
 
       axios({
         method: 'put',
-        url: this.API_URL+'api/products/'+this.$route.params.id,
+        url: 'api/products/'+this.$route.params.id,
         data: {
           title: this.title,
           price: this.price,
           image: this.image,
           description: this.description
         },
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+this.TOKEN
-        }
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Authorization': 'Bearer '+TOKEN
+        // }
       }).then((response) => {
         if (response.status == 200){
-          this.$router.push('/list')
+          this.$router.replace('/list')
         }
       })
     }

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {mapActions} from 'vuex';
 export default {
   name: "LoginForm",
   data: function () {
@@ -26,26 +26,17 @@ export default {
     }
   },
   methods: {
-      getFormValues: function (submitEvent) {
-        this.email = submitEvent.target.elements.email.value
-        this.password = submitEvent.target.elements.password.value
-        axios({
-          method: 'post',
-          url: this.API_URL+'api/auth/login',
-          data: {
-            email: this.email,
-            password: this.password
-          }
-        }).then(  (response )=> {
-
-            localStorage.setItem('Access_token',response.data.token)
-              // this.loggedIn = true;
-              this.$router.push('/list')
-          window.location.reload()
-        }
+    ...mapActions({
+      signIn: 'auth/signIn'
+    }),
+    getFormValues: function (submitEvent) {
+      this.signIn(submitEvent).then(() => {
+        this.$router.push(
+           '/list'
         )
-      }
+      })
     },
+  }
 }
 </script>
 

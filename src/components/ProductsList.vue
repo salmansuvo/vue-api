@@ -14,7 +14,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr  v-for="product in products" :key="product.id">
+      <tr  v-for="product in allProducts" :key="product.id">
         <th scope="row">{{ product.id }}</th>
         <td><img :src="product.image_url" alt="SALMAN" height="55px" width="95px"></td>
         <td>{{ product.title }}</td>
@@ -25,56 +25,31 @@
       </tbody>
     </table>
   </div>
-
 </template>
 
 <script>
-var Token = localStorage.getItem('Access_token')
-import axios from 'axios';
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ProductsList",
-
-  data: function (){
-    return {
-      products : []
-    }
-  },
-  mounted: function (){
-
-    axios({
-            method: 'post',
-            url: this.API_URL+'api/products/list',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer '+Token//this.TOKEN
-            }
-            }).then(  (response )=> {
-              // console.log(this)
-              this.products = response.data
-            }
-    )
-  },
-
   methods: {
-    del: function (id){
-      if (confirm('Are you sure you want to delete this product?')){
-        axios.delete(this.API_URL+'api/products/'+id)
-          .then(  (response ) => {
-            if (response.status == 200) {
-              const index = this.products.findIndex(product => product.id === id); // find the post index
-              if (~index) // if the post exists in array
-                this.products.splice(index, 1) //delete the post
-            }else{
-              this.$router.push('/login');
-            }
-          })
-      }
+    ...mapActions(["fetchProducts", "deleteProduct", "updateProduct"]),
+    edit(productId) {
+      this.$router.replace('/edit/'+productId);
     },
-    edit: function (id){
-      this.$router.push('/edit/'+id);
-    }
+    del(Id){
+      const delProduct = {
+        id: Id,
+    // title: product.title,
+    // completed: !product.completed
+    };
+         this.deleteProduct(delProduct);
+    },
+  },
+  computed: mapGetters(["allProducts"]),
+  created() {
+    this.fetchProducts();
   }
-}
+};
 </script>
 
 <style scoped>
